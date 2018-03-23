@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 
+import './BuildingTypes.css';
+
 export default class BuildingTypes extends Component {
   render() {
     const buildingTypes = this.props.buildingTypes.map((buildtype, key) => {
       return (
-        <label key={key}>
+        <label
+          htmlFor={`building-type-${buildtype.name}`}
+          className="buildtypes__label"
+          key={`building-type-${key}`}
+        >
           <input
             type="checkbox"
-            className="buildtypes__button"
+            className="buildtypes__checkbox"
             onClick={e => this.props.onTypeSelect(e)}
             value={buildtype.name}
+            id={`building-type-${buildtype.name}`}
           />
-          {buildtype.displayName}
+          <span className="buldtypes__customcheckbox"></span>
+          <span>{buildtype.displayName}</span>
         </label>
       )
     })

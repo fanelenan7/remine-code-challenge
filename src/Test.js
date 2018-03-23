@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import RemineTable from './components/Table/RemineTable/RemineTable';
 import api from './API';
 import BuildingTypes from './components/BuildingTypes';
+import Range from './components/Range';
+
+import './Test.css';
 
 class Test extends Component {
   constructor() {
@@ -11,10 +14,8 @@ class Test extends Component {
       locations: [],
       buildingTypes: [],
       typeFilter: [],
-      MinBedsFilter: 0,
-      MaxBedsFilter: 10,
-      MinBathsFilter: 0,
-      MaxBathsFilter: 10,
+      BedsFilter: 100,
+      BathsFilter: 100,
       filteredData: []
     }
   }
@@ -71,6 +72,10 @@ class Test extends Component {
     })
   }
 
+  updateRange() {
+
+  }
+
   render() {
     return (
       <div className="testContainer">
@@ -82,7 +87,9 @@ class Test extends Component {
           />
           <div className="filters__ranges">
             <h3>Select Number of Bedrooms</h3>
+            <Range key="bed__range"/>
             <h3>Select Number of Bathrooms</h3>
+            <Range key="bath__range"/>
           </div>
         </section>
         { this.state.filteredData.length > 0 ?

@@ -1,0 +1,17 @@
+.buildtypes__label {
+  margin-left: 20px;
+}
+
+.buildtypes__checkbox {
+  display: none;
+}
+
+.buldtypes__customcheckbox {
+  width: 10px;
+  border: 2px solid #7BB341;
+  border-radius: 50%;
+}
+
+input[checkbox]:checked ~ .buldtypes__customcheckbox {
+  background-color: #7BB341;
+}
