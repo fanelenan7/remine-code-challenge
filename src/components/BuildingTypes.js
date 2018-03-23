@@ -13,12 +13,11 @@ export default class BuildingTypes extends Component {
         >
           <input
             type="checkbox"
-            className="buildtypes__checkbox"
             onClick={e => this.props.onTypeSelect(e)}
             value={buildtype.name}
             id={`building-type-${buildtype.name}`}
           />
-          <span className="buldtypes__customcheckbox"></span>
+          <span className="buildtypes__customcheckbox"></span>
           <span>{buildtype.displayName}</span>
         </label>
       )

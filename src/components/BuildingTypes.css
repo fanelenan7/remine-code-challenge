@@ -2,16 +2,20 @@
   margin-left: 20px;
 }
 
-.buildtypes__checkbox {
+input[type=checkbox] {
   display: none;
 }
 
-.buldtypes__customcheckbox {
-  width: 10px;
-  border: 2px solid #7BB341;
+.buildtypes__customcheckbox {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 2px solid dodgerblue;
   border-radius: 50%;
+  margin-right: 10px;
+  transition: 0.2s ease;
 }
 
-input[checkbox]:checked ~ .buldtypes__customcheckbox {
-  background-color: #7BB341;
+input[type=checkbox]:checked ~ .buildtypes__customcheckbox {
+  background-color: dodgerblue;
 }
