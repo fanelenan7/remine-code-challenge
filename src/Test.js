@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import RemineTable from './components/Table/RemineTable/RemineTable';
 import api from './API';
 import BuildingTypes from './components/BuildingTypes';
-import Range from './components/Range';
+import BuildingRange from './components/BuildingRange';
 
 import './Test.css';
 
@@ -14,8 +14,8 @@ class Test extends Component {
       locations: [],
       buildingTypes: [],
       typeFilter: [],
-      BedsFilter: 100,
-      BathsFilter: 100,
+      bedsFilter: [0, 100],
+      bathsFilter: [0, 100],
       filteredData: []
     }
   }
@@ -72,8 +72,34 @@ class Test extends Component {
     })
   }
 
-  updateRange() {
+  updateBedsRange(value) {
+    this.setState({
+      bedsFilter: value
+    }, () => this.updateListBeds());
+  }
 
+  updateListBeds() {
+    if (this.state.filteredData.length > 0) {
+      let newRange = this.state.filteredData.filter(location => {
+        return (location.beds >= this.state.bedsFilter[0] && location.beds <= this.state.bedsFilter[1]) ;
+      })
+      this.setState({
+        filteredData: newRange
+      })
+    } else {
+      let newRange = this.state.locations.filter(location => {
+        return (location.beds >= this.state.bedsFilter[0] && location.beds <= this.state.bedsFilter[1]) ;
+      })
+      this.setState({
+        filteredData: newRange
+      })
+    }
+  }
+
+  updateBathsRange(value) {
+    this.setState({
+      bathsFilter: value
+    })
   }
 
   render() {
@@ -87,9 +113,11 @@ class Test extends Component {
           />
           <div className="filters__ranges">
             <h3>Select Number of Bedrooms</h3>
-            <Range key="bed__range"/>
+            <BuildingRange key="bed__range" updateValue={(value) => this.updateBedsRange(value)} />
+            <span>{this.state.bedsFilter[0]} - {this.state.bedsFilter[1]}</span>
             <h3>Select Number of Bathrooms</h3>
-            <Range key="bath__range"/>
+            <BuildingRange key="bath__range" updateValue={(value) => this.updateBathsRange(value)} />
+            <span>{this.state.bathsFilter[0]} - {this.state.bathsFilter[1]}</span>
           </div>
         </section>
         { this.state.filteredData.length > 0 ?

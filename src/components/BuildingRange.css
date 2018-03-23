@@ -1,0 +1,11 @@
+.rc-slider-track {
+  background-color: dodgerblue;
+}
+
+.rc-slider-handle {
+  border-color: dodgerblue;
+}
+
+.buildingrange {
+  width: 60%;
+}
