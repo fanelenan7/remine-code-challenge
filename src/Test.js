@@ -15,8 +15,7 @@ class Test extends Component {
       buildingTypes: [],
       typeFilter: [],
       bedsFilter: [0, 100],
-      bathsFilter: [0, 100],
-      filteredData: []
+      bathsFilter: [0, 100]
     }
   }
 
