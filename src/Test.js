@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import RemineTable from './components/Table/RemineTable/RemineTable';
-import api from './API';
 import BuildingTypes from './components/BuildingTypes';
 import BuildingRange from './components/BuildingRange';
+import api from './API';
 
 import './Test.css';
 
@@ -20,10 +20,11 @@ class Test extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getLocations();
     this.getBuildingTypes();
   }
+
 
   getLocations() {
     api.getLocations().then((response) => {
@@ -49,57 +50,65 @@ class Test extends Component {
     if (!this.state.typeFilter.includes(e.target.value)) {
       this.setState({
         typeFilter: [...this.state.typeFilter, e.target.value]
-      }, () => this.updateLocation())
+      })
     } else {
       const newFilter = this.state.typeFilter.filter((type) => {
         return type !== e.target.value
       })
       this.setState({
         typeFilter: newFilter,
-      }, () => this.updateLocation())
+      })
     }
-  }
-
-  // on any change to filters, check what changed and rerender with new parameters
-  // save in it's own variable to protect the original data from mutating in case
-  // we need to deselect.
-  updateLocation() {
-    const newLocations = this.state.locations.filter(location => {
-      return this.state.typeFilter.includes(location.buildingType.name)
-    })
-    this.setState({
-      filteredData: newLocations
-    })
   }
 
   updateBedsRange(value) {
     this.setState({
       bedsFilter: value
-    }, () => this.updateListBeds());
-  }
-
-  updateListBeds() {
-    if (this.state.filteredData.length > 0) {
-      let newRange = this.state.filteredData.filter(location => {
-        return (location.beds >= this.state.bedsFilter[0] && location.beds <= this.state.bedsFilter[1]) ;
-      })
-      this.setState({
-        filteredData: newRange
-      })
-    } else {
-      let newRange = this.state.locations.filter(location => {
-        return (location.beds >= this.state.bedsFilter[0] && location.beds <= this.state.bedsFilter[1]) ;
-      })
-      this.setState({
-        filteredData: newRange
-      })
-    }
+    });
   }
 
   updateBathsRange(value) {
     this.setState({
       bathsFilter: value
     })
+  }
+
+  renderTable() {
+    if (this.state.locations.length) {
+      let data = this.state.locations;
+      // go through the filters
+      data = data.filter(location => {
+        if (this.state.typeFilter.length) {
+          if (!this.state.typeFilter.includes(location.buildingType.name)) {
+            return false;
+          }
+        }
+
+        if (location.beds < this.state.bedsFilter[0]) {
+          return false;
+        }
+
+        if (location.beds > this.state.bedsFilter[1]) {
+          return false;
+        }
+
+        if (location.baths < this.state.bathsFilter[0]) {
+          return false;
+        }
+
+        if (location.baths > this.state.bathsFilter[1]) {
+          return false;
+        }
+
+        return true;
+      })
+
+      return (
+        <div className="test__table">
+          <RemineTable properties={data} />
+        </div>
+      )
+    }
   }
 
   render() {
@@ -120,11 +129,7 @@ class Test extends Component {
             <span>{this.state.bathsFilter[0]} - {this.state.bathsFilter[1]}</span>
           </div>
         </section>
-        { this.state.filteredData.length > 0 ?
-          (<RemineTable properties={this.state.filteredData} />) :
-          (<RemineTable properties={this.state.locations} />)
-        }
-
+        { this.renderTable() }
       </div>
     );
   }
